@@ -82,12 +82,10 @@ public class HelloController {
     }
 
     private Tile.TileType randomTileType() {
-        int r = (int) (Math.random() * 3);
-        return switch (r) {
-            case 0 -> Tile.TileType.GRASS;
-            case 1 -> Tile.TileType.WATER;
-            default -> Tile.TileType.OBSTACLE;
-        };
+        double r = Math.random();
+        if (r < 0.7) return Tile.TileType.GRASS;
+        else if (r < 0.9) return Tile.TileType.WATER;
+        else return Tile.TileType.OBSTACLE;
     }
 
     private void displayMaze() {
@@ -124,10 +122,8 @@ public class HelloController {
                             Tile.TileType newType = Tile.TileType.valueOf(typeName);
 
                             tile.setType(newType);
-                            tile.setSafe(false); // reset safety, will be reclassified after training
-
-                            // Redraw updated tile
-                            displayMaze(); // refresh full maze, or just reset this tile if you prefer
+                            tile.setSafe(false);
+                            displayMaze();
                             success = true;
                         } catch (IllegalArgumentException ignored) {
                         }
@@ -164,7 +160,6 @@ public class HelloController {
                         }
                     }
                 }
-
                 tile.setDistanceToNearestObstacle(minDistance);
             }
         }
@@ -217,12 +212,10 @@ public class HelloController {
 
             Tile newEndTile = maze.getTile(y, x);
 
-            // Reset old end tile
             if (endTile != null) {
                 resetTileStyle(endTile);
             }
 
-            // Assign and mark new end tile
             endTile = newEndTile;
             updateTileLabel(endTile, "End", "yellow");
 
@@ -264,9 +257,9 @@ public class HelloController {
     private void handleTrainPerceptron() {
         try {
             String path = pathField.getText();
-            path = "src/main/resources/com/example/ai_project/Data.xlsx";
+            path = "src/main/resources/com/example/ai_project/" + path;
             perceptron.train(path, 100);
-           // classifyTiles(maze, perceptron);
+            classifyTiles(maze, perceptron);
             displayMaze();
             System.out.println("Perceptron trained and maze updated.");
         } catch (Exception e) {
@@ -301,11 +294,8 @@ public class HelloController {
             System.out.println("Maze, start tile, or end tile is not set.");
             return;
         }
-
-        // Re-classify the tiles before finding the path
         classifyTiles(maze, perceptron);
 
-        // Call A* pathfinding
         java.util.List<Tile> path = AStarPathfinder.findPath(maze,perceptron, startTile.getRow(), startTile.getCol(), endTile.getRow(), endTile.getCol());
 
         if (path == null) {
@@ -315,11 +305,14 @@ public class HelloController {
             for (Tile tile : path) {
                 if (tile != startTile && tile != endTile) {
                     StackPane cell = new StackPane();
-                    cell.setStyle(getTileStyle(tile) + "-fx-border-color: orange;");
+                    cell.setStyle(getTileStyle(tile) + "-fx-background-color: orange;");
                     Grid.add(cell, tile.getCol(), tile.getRow());
                 }
             }
             System.out.println("Path found and highlighted.");
         }
     }
+
+
+
 }

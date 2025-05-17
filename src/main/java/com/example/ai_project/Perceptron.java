@@ -17,6 +17,10 @@ public class Perceptron {
     private final double[] weights = new double [4];
     private final double learningRate;
     public Perceptron(double learningRate) {
+        Random rand = new Random();
+        for (int i = 0; i < weights.length; i++) {
+            weights[i] = rand.nextDouble() * 0.1 - 0.05;
+        }
         this.learningRate = learningRate;
     }
     public int Predict(int tileType, int elevation, int distance){
@@ -43,16 +47,13 @@ public class Perceptron {
                 allData.add(new DataPoint(tileType, elevation, distance, label));
             }
         }
-
-        // 1. Shuffle data
         Collections.shuffle(allData, new Random());
 
-        // 2. Split into 80% training, 20% testing
         int splitIndex = (int) (allData.size() * 0.8);
         List<DataPoint> trainData = allData.subList(0, splitIndex);
         List<DataPoint> testData = allData.subList(splitIndex, allData.size());
 
-        // 3. Train using Perceptron rule
+
         for (int epoch = 0; epoch < epochs; epoch++) {
             for (DataPoint dp : trainData) {
                 int prediction = Predict(dp.tileType, dp.elevation, dp.distance);
@@ -65,7 +66,7 @@ public class Perceptron {
             }
         }
 
-        // 4. Evaluate on test data
+
         int correct = 0;
         for (DataPoint dp : testData) {
             int prediction = Predict(dp.tileType, dp.elevation, dp.distance);

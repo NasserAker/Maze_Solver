@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1073.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ai_project.HelloController">
+<AnchorPane id="sasa" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1073.0" style="-fx-background-color: #beede8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ai_project.HelloController">
    <children>
       <GridPane fx:id="Grid" layoutX="327.0" layoutY="104.0" prefHeight="581.0" prefWidth="708.0" style="-fx-border-color: black;">
         <columnConstraints>
@@ -50,7 +50,12 @@
       <Label alignment="CENTER" layoutX="125.0" layoutY="521.0" prefHeight="18.0" prefWidth="61.0" text="Water" />
       <Label alignment="CENTER" layoutX="224.0" layoutY="521.0" prefHeight="18.0" prefWidth="61.0" text="Obstacle" />
       <Button fx:id="trainPerceptronButton" layoutX="156.0" layoutY="577.0" mnemonicParsing="false" onAction="#handleTrainPerceptron" prefHeight="37.0" prefWidth="149.0" text="Train The Perceptron" />
-      <TextField fx:id="pathField" layoutX="26.0" layoutY="588.0" prefHeight="25.0" prefWidth="123.0" />
+      <TextField fx:id="pathField" layoutX="26.0" layoutY="588.0" prefHeight="25.0" prefWidth="123.0" text="Data.xlsx" />
       <Label alignment="CENTER" layoutX="27.0" layoutY="568.0" prefHeight="18.0" prefWidth="123.0" text="Data File Name" />
+      <Label alignment="CENTER" layoutX="334.0" layoutY="22.0" prefHeight="61.0" prefWidth="623.0" text="A* Maze Solver">
+         <font>
+            <Font name="Times New Roman" size="35.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
