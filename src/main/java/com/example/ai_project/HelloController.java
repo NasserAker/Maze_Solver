@@ -287,6 +287,7 @@ public class HelloController {
     }
 
 
+    private final java.util.List<Tile> highlightedPathTiles = new java.util.ArrayList<>();
 
     @FXML
     private void handleFindPath() {
@@ -294,6 +295,7 @@ public class HelloController {
             System.out.println("Maze, start tile, or end tile is not set.");
             return;
         }
+        resetHighlightedTiles();
         classifyTiles(maze, perceptron);
 
         java.util.List<Tile> path = AStarPathfinder.findPath(maze,perceptron, startTile.getRow(), startTile.getCol(), endTile.getRow(), endTile.getCol());
@@ -307,11 +309,45 @@ public class HelloController {
                     StackPane cell = new StackPane();
                     cell.setStyle(getTileStyle(tile) + "-fx-background-color: orange;");
                     Grid.add(cell, tile.getCol(), tile.getRow());
+
+                    highlightedPathTiles.add(tile);
                 }
             }
             System.out.println("Path found and highlighted.");
         }
     }
+
+    private void resetHighlightedTiles() {
+        for (Tile tile : highlightedPathTiles) {
+            updateCell(tile); // force redraw the original safe/unsafe style
+        }
+        highlightedPathTiles.clear();
+    }
+
+
+
+    private void updateCell(Tile tile) {
+        // Remove existing node at (col, row) if any
+        Grid.getChildren().removeIf(node ->
+                Grid.getColumnIndex(node) != null &&
+                        Grid.getRowIndex(node) != null &&
+                        Grid.getColumnIndex(node) == tile.getCol() &&
+                        Grid.getRowIndex(node) == tile.getRow()
+        );
+
+        StackPane cell = new StackPane();
+        cell.setPrefSize(40, 40);
+        cell.setStyle("-fx-border-color: black;" + getTileStyle(tile));
+
+        cell.setOnMouseClicked(e -> {
+            xCoordinateField.setText(String.valueOf(tile.getCol()));
+            yCoordinateField.setText(String.valueOf(tile.getRow()));
+            elevationField.setText(String.valueOf(tile.getElevation()));
+        });
+
+        Grid.add(cell, tile.getCol(), tile.getRow());
+    }
+
 
 
 
