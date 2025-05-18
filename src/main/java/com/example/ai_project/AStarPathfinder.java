@@ -6,8 +6,8 @@ public class AStarPathfinder {
 
     static class Node implements Comparable<Node> {
         int row, col;
-        int g; // Cost from start to this node
-        int h; // Heuristic (Manhattan distance to goal)
+        int g;
+        int h;
         Node parent;
 
         public Node(int row, int col, int g, int h, Node parent) {

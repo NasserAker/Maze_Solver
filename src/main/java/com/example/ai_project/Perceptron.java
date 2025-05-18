@@ -14,12 +14,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 public class Perceptron {
-    private final double[] weights = new double [4];
-    private final double learningRate;
+    private double[] weights = new double [4];
+    private double learningRate;
     public Perceptron(double learningRate) {
         Random rand = new Random();
         for (int i = 0; i < weights.length; i++) {
-            weights[i] = rand.nextDouble() * 0.1 - 0.05;
+            weights[i] = rand.nextDouble() * 0.1 - 0.05; //-0.05 to 0.05
         }
         this.learningRate = learningRate;
     }
@@ -87,7 +87,6 @@ public class Perceptron {
         public int elevation;
         public int distance;
         public int label;
-
         public DataPoint(int tileType, int elevation, int distance, int label) {
             this.tileType = tileType;
             this.elevation = elevation;

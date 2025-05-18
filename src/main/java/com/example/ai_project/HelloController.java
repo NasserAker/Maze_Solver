@@ -35,7 +35,6 @@ public class HelloController {
         setupDraggablePane(waterPane, Tile.TileType.WATER);
         setupDraggablePane(obstaclePane, Tile.TileType.OBSTACLE);
     }
-
     @FXML
     private void handleSetSize() {
         try {
@@ -189,13 +188,10 @@ public class HelloController {
             int y = Integer.parseInt(yCoordinateField.getText());
 
             Tile newStartTile = maze.getTile(y, x);
-
-            // Reset old start tile
             if (startTile != null) {
                 resetTileStyle(startTile);
             }
 
-            // Assign and mark new start tile
             startTile = newStartTile;
             updateTileLabel(startTile, "Start", "yellow");
 
